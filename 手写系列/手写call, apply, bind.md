@@ -1,25 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+## 一、手写call
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    div {
-      width: 200px;
-      height: 1800px;
-      overflow: auto;
-      background-color: aqua;
-    }
-  </style>
-</head>
-
-<body>
-  <div></div>
-</body>
-<script>
+```js
   //手写call
   var name = '一尾流莺'
   var obj = {
@@ -37,6 +18,7 @@
     //否则使用Object()将上下文包装成对象
     context = context || window;
     //创建一个symbol（保证唯一性不会重名）属性，将当前函数赋值给这个属性
+    //symbol属性请看：https://www.cnblogs.com/Renyi-Fan/p/12585049.html#_label0_1
     const fn = Symbol();
     context[fn] = this;
     const result = context[fn](...args);
@@ -47,6 +29,5 @@
   foo.myCall(null, "爱你")
   foo.myCall(obj, "不爱你")
   console.log(foo.myCall(obj, "不爱你"))
-</script>
+```
 
-</html>
