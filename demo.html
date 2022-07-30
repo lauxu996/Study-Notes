@@ -1,54 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    div {
-      width: 200px;
-      height: 1800px;
-      overflow: auto;
-      background-color: aqua;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高度塌陷</title>
+    <style>
+        .box {
+            margin: 10px;
+            width: 100px;
+            height: 100px;
+            background: red;
+            float: left;
+        }
+        /* .container {
+            background: #000;
+            display: inline-block;
+        } */
+    </style>
 </head>
-
 <body>
-  <div></div>
+    <div class="container">
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
 </body>
-<script>
-  //手写bind
-  /*
-  * 处理参数，返回一个闭包
-  * 判断是否为一个构造函数调用， 如果是则使用new调用当前函数
-  * 如果不是，使用apply，将context和处理好的参数传入
-  */
-
-  var name = '一尾流莺'
-  var obj = {
-    name: 'warbler',
-  }
-  function foo(...text) {
-    console.log(this.name, text);
-    return 'success'
-  }
-  Function.prototype.myBind = function (context = window, ...args1) {
-    if (this === Function.prototype) {
-      throw new TypeError('Error')
-    }
-    const that = this;
-    return function F(...args2) {
-      if (this instanceof F) {
-        return new that(...args1, ...args2)
-      }
-      return that.apply(context, args1.concat(args2))
-    }
-  }
-  const x = foo.myBind(obj);
-  x(20,10,30)
-</script>
-
 </html>
