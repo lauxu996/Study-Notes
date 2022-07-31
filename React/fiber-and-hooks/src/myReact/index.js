@@ -22,7 +22,7 @@ function createTextVDom(text) {
     Text,
     props: {
       nodeValue: text,
-      children: []
+      children: [],
     },
   };
 }
@@ -33,6 +33,7 @@ function createTextVDom(text) {
  * 2.父节点，也就是我们要将虚拟DOM渲染的位置
  */
 function render(vDom, container) {
+  //console.log("22222",vDom)
   let dom;
   //检查当前节点是文本还是对象
   if (typeof vDom !== "object") {
@@ -44,16 +45,26 @@ function render(vDom, container) {
   //将VDom上除了children外的属性都挂载到真正的dom上
   if (vDom.props) {
     Object.keys(vDom.props)
-      .filter((key) => key != "children") //筛选出属性
+      .filter((key) => key !== "children") //筛选出属性
       .forEach((item) => {
         dom[item] = vDom.props[item]; //给标签上面加上属性并附上属性值
       });
   }
   //如果还有子元素，递归调用
-  if(vDom.props && vDom.props.children && vDom.props.children.length){
-    vDom.props.children.forEach(item => render(item, dom))
+  if (vDom.props && vDom.props.children && vDom.props.children.length ) {
+    if(typeof vDom.props.children == "object"){
+      vDom.props.children.forEach(child => render(child, dom));
+    }else{
+      render(vDom.props.children, dom) //文本节点
+    }
   }
-
+  //console.log("dom",dom)
   //插入到父节点
-  container.appendchildren(dom)
+  container.appendChild(dom);
+}
+
+export default {
+  createElement,
+  render,
+  createTextVDom
 }
